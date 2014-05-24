@@ -22,22 +22,26 @@ gulp.task('release', ['bump-version'], function() {
     });
 });
 
-// merge master into gh-pages and push it
-// FIXME merge fails, seems to happen before checkout is complete
-gulp.task('publish', function() {
-  var version = require('./package.json').version;
-
-  // 1. checkout
-  var checkout = gulp.src('.').pipe(git.checkout('gh-pages'));
-  // 2. merge
+gulp.task('checkoutPages', function() {
+  return gulp.src('.').pipe(git.checkout('gh-pages'));
+});
+gulp.task('mergeMaster', function() {
   git.merge('master');
-  // 3. push 
-  // var push = gulp.src('.')
-  //   .pipe(git.commit('merged master ' + version + ' to gh-pages'))
-  //   .on('end', function(){
-  //     this.pipe(git.push('origin', 'gh-pages'))
-  //     .end();
-  //   });
-  // 4. checkout
+});
+gulp.task('pushPages', function() {
+  var version = require('./package.json').version;
+  return gulp.src('.')
+    .pipe(git.commit('merged master ' + version + ' to gh-pages'))
+    .on('end', function(){
+      this.pipe(git.push('origin', 'gh-pages'))
+      .end();
+    });
+});
+gulp.task('checkoutMaster', function() {
   return gulp.src('.').pipe(git.checkout('master'));
+});
+
+// merge master into gh-pages and push it
+gulp.task('publish', ['checkoutPages', 'mergeMaster', 'pushPages', 'checkoutMaster'], function() {
+  // no op  
 });
