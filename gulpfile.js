@@ -17,8 +17,11 @@ gulp.task('release', ['bump-version'], function() {
 
   return gulp.src('.')
     .pipe(git.commit('released version ' + version))
-    .pipe(git.push('origin', 'master'))
-    .end();
+
+    .on('end', function(){
+      pipe(git.push('origin', 'master'))
+      .end();
+    });
 });
 
 // merge master into gh-pages and push it
