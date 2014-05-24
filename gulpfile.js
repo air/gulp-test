@@ -11,13 +11,11 @@ gulp.task('bump-version', function() {
 });
 
 // commit package.json and push it
-// FIXME push is broken
 gulp.task('release', ['bump-version'], function() {
   var version = require('./package.json').version;
 
   return gulp.src('.')
     .pipe(git.commit('released version ' + version))
-
     .on('end', function(){
       this.pipe(git.push('origin', 'master'))
       .end();
@@ -29,11 +27,17 @@ gulp.task('release', ['bump-version'], function() {
 gulp.task('publish', function() {
   var version = require('./package.json').version;
 
-  return gulp.src('.')
-    .pipe(git.checkout('gh-pages'))
-    .pipe(git.merge('master'))
+  // 1. checkout
+  var checkout = gulp.src('.').pipe(git.checkout('gh-pages'));
+  // 2. merge
+  git.merge('master');
+  // 3. push 
+  var push = gulp.src('.')
     .pipe(git.commit('merged master ' + version + ' to gh-pages'))
-    .pipe(git.push('origin', 'gh-pages'))
-    .pipe(git.checkout('master'))
-    .end();
+    .on('end', function(){
+      this.pipe(git.push('origin', 'gh-pages'))
+      .end();
+    });
+  // 4. checkout
+  return gulp.src('.').pipe(git.checkout('master'));
 });
