@@ -30,14 +30,14 @@ gulp.task('publish', function() {
   // 1. checkout
   var checkout = gulp.src('.').pipe(git.checkout('gh-pages'));
   // 2. merge
-  git.merge('master');
+  // git.merge('master');
   // 3. push 
-  var push = gulp.src('.')
-    .pipe(git.commit('merged master ' + version + ' to gh-pages'))
-    .on('end', function(){
-      this.pipe(git.push('origin', 'gh-pages'))
-      .end();
-    });
+  // var push = gulp.src('.')
+  //   .pipe(git.commit('merged master ' + version + ' to gh-pages'))
+  //   .on('end', function(){
+  //     this.pipe(git.push('origin', 'gh-pages'))
+  //     .end();
+  //   });
   // 4. checkout
   return gulp.src('.').pipe(git.checkout('master'));
 });
