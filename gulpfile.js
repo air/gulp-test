@@ -19,7 +19,7 @@ gulp.task('release', ['bump-version'], function() {
     .pipe(git.commit('released version ' + version))
 
     .on('end', function(){
-      pipe(git.push('origin', 'master'))
+      this.pipe(git.push('origin', 'master'))
       .end();
     });
 });
