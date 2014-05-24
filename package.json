@@ -1,0 +1,26 @@
+{
+  "name": "gulp-test",
+  "version": "0.0.1",
+  "description": "gulp-test =========",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "bump-version": "gulp bump-version",
+    "release": "gulp release",
+    "publish": "gulp publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/air/gulp-test"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/air/gulp-test/issues"
+  },
+  "devDependencies": {
+    "gulp": "~3.6.2",
+    "gulp-git": "~0.4.2",
+    "gulp-bump": "~0.1.8"
+  }
+}
